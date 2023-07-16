@@ -179,7 +179,7 @@ class Ui_MainWindow(object):
         font.setPointSize(12)
         item.setFont(font)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/svg/img/svg/主页.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("img/home.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         item.setIcon(icon)
         self.fuctionlist.addItem(item)
         item = QtWidgets.QListWidgetItem()
@@ -203,17 +203,17 @@ class Ui_MainWindow(object):
         font.setPointSize(12)
         item.setFont(font)
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(":/svg/img/svg/205设置.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap("img/setting2.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         item.setIcon(icon3)
         self.fuctionlist.addItem(item)
         MainWindow.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1149, 25))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
         self.fuctionlist.setCurrentRow(-1)
@@ -224,7 +224,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.tomato_time.setText(_translate("MainWindow", "25:00"))
         self.tomato_mode.setText(_translate("MainWindow", "WORK"))
-        #self.face_tracking.setText(_translate("MainWindow", "opencv"))
+        self.face_tracking.setText(_translate("MainWindow", "opencv"))
         self.label_3.setText(_translate("MainWindow", "待辦清單"))
         self.username.setText(_translate("MainWindow", "user"))
         __sortingEnabled = self.fuctionlist.isSortingEnabled()
@@ -238,7 +238,6 @@ class Ui_MainWindow(object):
         item = self.fuctionlist.item(3)
         item.setText(_translate("MainWindow", "設定"))
         self.fuctionlist.setSortingEnabled(__sortingEnabled)
-import resources_rc
 
 
 if __name__ == "__main__":

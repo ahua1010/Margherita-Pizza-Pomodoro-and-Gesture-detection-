@@ -434,8 +434,8 @@ border-radius:8px;
        </font>
       </property>
       <property name="icon">
-       <iconset resource="../example/resources.qrc">
-        <normaloff>:/svg/img/svg/主页.png</normaloff>:/svg/img/svg/主页.png</iconset>
+       <iconset>
+        <normaloff>img/home.png</normaloff>img/home.png</iconset>
       </property>
      </item>
      <item>
@@ -476,13 +476,14 @@ border-radius:8px;
        </font>
       </property>
       <property name="icon">
-       <iconset resource="../example/resources.qrc">
-        <normaloff>:/svg/img/svg/205设置.png</normaloff>:/svg/img/svg/205设置.png</iconset>
+       <iconset>
+        <normaloff>img/setting2.png</normaloff>img/setting2.png</iconset>
       </property>
      </item>
     </widget>
    </widget>
   </widget>
+  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
@@ -493,10 +494,7 @@ border-radius:8px;
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources>
-  <include location="../example/resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

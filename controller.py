@@ -1,25 +1,33 @@
 import sys
-from PyQt5 import QtWidgets, QtGui, QtCore
+import cv2
+from PyQt5 import QtWidgets, QtGui, QtCore, uic
 from PyQt5.QtCore import QTimer, Qt
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import *
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QPushButton, QInputDialog
+from eye_tracking import eye_detect
+
 
 #from eye_tracking import *
 #import cv2
 #import numpy as np
 
-from UI import Ui_MainWindow
+#from UI import Ui_MainWindow
 
 class MainWindow_controller(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__() # in python3, super(Class, self).xxx = super().xxx
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
-        self.setup_control()
+        self.ui = uic.loadUi("demo.ui",self)
+        #self.ui = Ui_MainWindow()
+        #self.ui.setupUi(self)
+        #self.setup_control()
         #番茄鐘初始
         self.remaining_time = 25 * 60  # 初始倒數時間為25分鐘
         self.timer_running = False  # 計時器是否正在運行
         self.current_mode = 'Work'  # 目前的模式（工作或休息）
+        self.open_flag=True #姿態檢測模式
+        self.video_stream=cv2.VideoCapture('D:/酪梨資料夾/大學作業/專題/pyqt/demo/test.mp4')
+        self.painter = QPainter(self)
+        self.dt=eye_detect()
         
     def setup_control(self):
         #番茄鐘開始按鈕
@@ -55,7 +63,7 @@ class MainWindow_controller(QtWidgets.QMainWindow):
 
         self.timer_running = True
         self.ui.tomato_start.setStyleSheet("border: none;\n"
-"image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/stop.png);")
+    "image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/stop.png);")
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_timer)
         self.timer.start(1000)
@@ -63,14 +71,14 @@ class MainWindow_controller(QtWidgets.QMainWindow):
     def stop_timer(self):
         self.timer_running = False
         self.ui.tomato_start.setStyleSheet("border: none;\n"
-"image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/start.png);")
+        "image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/start.png);")
         self.timer.stop()
         
     def skip_timer(self):
         self.timer.stop()
         self.remaining_time = 1
         self.ui.tomato_start.setStyleSheet("border: none;\n"
-"image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/start.png);")
+        "image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/start.png);")
         self.update_timer()
 
     def update_timer(self):
@@ -81,7 +89,7 @@ class MainWindow_controller(QtWidgets.QMainWindow):
             self.timer.stop()
             self.timer_running = False
             self.ui.tomato_start.setStyleSheet("border: none;\n"
-    "image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/start.png);")
+            "image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/start.png);")
 
             if self.current_mode == 'Work':
                 self.current_mode = 'Rest'
@@ -91,4 +99,25 @@ class MainWindow_controller(QtWidgets.QMainWindow):
                 self.current_mode = 'Work'
                 self.remaining_time = 25 * 60  # 工作25分鐘
                 self.ui.tomato_mode.setText("WORK")
+
+    '''
+    def on_video(self):
+        if self.open_flag:
+            self.pushButton.setText('open')
+        else:
+            self.pushButton.setText('close')
+        self.open_flag = bool(1-self.open_flag)#
+    '''
+        
+    def paintEvent(self, a0: QtGui.QPaintEvent):
+        if self.open_flag:
+            ret, frame = self.video_stream.read()
+            if frame is None:
+                return
+            frame=cv2.resize(frame,(self.ui.frame4.size().width(), frame.shape[0]),interpolation=cv2.INTER_AREA)
+            frame=cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
+            frame=self.dt.run(ret, frame)
+            self.Qframe=QImage(frame.data,frame.shape[1],frame.shape[0],frame.shape[1]*3,QImage.Format_RGB888)
+            self.ui.face_tracking.setPixmap(QPixmap.fromImage(self.Qframe))
+            self.update()
         

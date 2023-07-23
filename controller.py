@@ -10,9 +10,10 @@ from UI import Ui_MainWindow
 class MainWindow_controller(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__() # in python3, super(Class, self).xxx = super().xxx
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
+        self.ui = uic.loadUi("demo.ui",self)
+        #self.ui.setupUi(self)
         self.setup_control()
+        self.ui.fuctionlist.itemClicked.connect(self.tab_switch)
 
         #番茄鐘初始
         self.remaining_time = 25 * 60  # 初始倒數時間為25分鐘
@@ -22,7 +23,17 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         #self.video_stream=cv2.VideoCapture('D:/酪梨資料夾/大學作業/專題/pyqt/demo/test.mp4')
         self.painter = QPainter(self)
         self.dt=eye_detect()
+    
+    #tab切換
+    def tab_switch(self,Index):
+        if self.ui.fuctionlist.item(self.ui.fuctionlist.row(Index)).text() == "首頁":
+            self.ui.stackedWidget.setCurrentIndex(0)
+        elif self.ui.fuctionlist.item(self.ui.fuctionlist.row(Index)).text() == "伸展操":
+            self.ui.stackedWidget.setCurrentIndex(1)
+        # self.stackedWidget.setCurrentIndex(1)
+        # self.stackedWidget.setCurrentIndex(2)
         
+    #番茄鐘功能
     def setup_control(self):
         #番茄鐘開始按鈕
         self.ui.tomato_start.clicked.connect(self.start_stop_timer)

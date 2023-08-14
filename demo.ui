@@ -157,6 +157,7 @@
         <widget class="QListWidget" name="fuctionlist">
          <property name="font">
           <font>
+           <family>微軟正黑體</family>
            <pointsize>14</pointsize>
            <weight>75</weight>
            <bold>true</bold>
@@ -550,8 +551,10 @@ image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/list.png);</strin
                   </property>
                   <property name="font">
                    <font>
-                    <family>Agency FB</family>
+                    <family>微軟正黑體</family>
                     <pointsize>11</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
                    </font>
                   </property>
                   <property name="styleSheet">
@@ -681,8 +684,10 @@ image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/skip.png);</strin
                   </property>
                   <property name="font">
                    <font>
-                    <family>Agency FB</family>
+                    <family>微軟正黑體</family>
                     <pointsize>11</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
                    </font>
                   </property>
                   <property name="styleSheet">
@@ -782,7 +787,99 @@ image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/skip.png);</strin
 	background-color:rgba(183, 172, 183,0.9);
 }</string>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_6"/>
+             <layout class="QVBoxLayout" name="verticalLayout_6">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_10">
+                <property name="spacing">
+                 <number>10</number>
+                </property>
+                <property name="topMargin">
+                 <number>5</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>5</number>
+                </property>
+                <item>
+                 <widget class="QLineEdit" name="todo_line">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <horstretch>20</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDateTimeEdit" name="todo_date">
+                  <property name="displayFormat">
+                   <string>yyyy/M/d HH:mm</string>
+                  </property>
+                  <property name="calendarPopup">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_2">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="todo_add">
+                  <property name="styleSheet">
+                   <string notr="true">border: none;
+image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/add.png);</string>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="todo_edit">
+                  <property name="styleSheet">
+                   <string notr="true">border: none;
+image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/edit.png);</string>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="todo_delete">
+                  <property name="styleSheet">
+                   <string notr="true">border: none;
+image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/delete.png);</string>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QListWidget" name="todo_list">
+                <property name="font">
+                 <font>
+                  <family>微軟正黑體</family>
+                  <pointsize>14</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </widget>
            </item>
           </layout>

@@ -157,7 +157,6 @@
         <widget class="QListWidget" name="fuctionlist">
          <property name="font">
           <font>
-           <family>微軟正黑體</family>
            <pointsize>14</pointsize>
            <weight>75</weight>
            <bold>true</bold>
@@ -166,15 +165,15 @@
          <property name="styleSheet">
           <string notr="true">QListView {
 	border:0px;
+    outline:0px;
 	border-bottom-right-radius:30px;
 	border-bottom-left-radius:30px;
 }
 QListView::item{
 	border:0px;
-	padding:15px;
+	padding:20px;
 	padding-left:10px;
 	color: rgb(67, 67, 67);
-	margin-bottom:8px;
 }
 QListView::item:hover {
 	border-radius:8px;
@@ -230,7 +229,7 @@ QListView::item:selected {
          </item>
          <item>
           <property name="text">
-           <string>新聞</string>
+           <string>天氣</string>
           </property>
           <property name="font">
            <font>
@@ -239,7 +238,7 @@ QListView::item:selected {
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>img/news.png</normaloff>img/news.png</iconset>
+            <normaloff>img/weather.png</normaloff>img/weather.png</iconset>
           </property>
          </item>
          <item>
@@ -524,7 +523,7 @@ image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/list.png);</strin
     }</string>
                   </property>
                   <property name="value">
-                   <number>24</number>
+                   <number>0</number>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
@@ -551,10 +550,8 @@ image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/list.png);</strin
                   </property>
                   <property name="font">
                    <font>
-                    <family>微軟正黑體</family>
+                    <family>Agency FB</family>
                     <pointsize>11</pointsize>
-                    <weight>75</weight>
-                    <bold>true</bold>
                    </font>
                   </property>
                   <property name="styleSheet">
@@ -627,7 +624,7 @@ image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/reset.png);</stri
                    </property>
                    <property name="styleSheet">
                     <string notr="true">border: none;
-image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/play.png);</string>
+image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/start.png);</string>
                    </property>
                    <property name="text">
                     <string/>
@@ -684,10 +681,8 @@ image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/skip.png);</strin
                   </property>
                   <property name="font">
                    <font>
-                    <family>微軟正黑體</family>
+                    <family>Agency FB</family>
                     <pointsize>11</pointsize>
-                    <weight>75</weight>
-                    <bold>true</bold>
                    </font>
                   </property>
                   <property name="styleSheet">
@@ -787,96 +782,187 @@ image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/skip.png);</strin
 	background-color:rgba(183, 172, 183,0.9);
 }</string>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_6">
+             <layout class="QVBoxLayout" name="verticalLayout_6"/>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page_2">
+       <layout class="QVBoxLayout" name="verticalLayout_8">
+        <item>
+         <widget class="QFrame" name="frame5_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>1</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_12">
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QFrame" name="frame6_2">
+             <property name="styleSheet">
+              <string notr="true">QFrame
+{
+	background-color:rgba(151, 238, 238,0.8);
+}</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_7"/>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page_3">
+       <layout class="QVBoxLayout" name="verticalLayout_10">
+        <item>
+         <widget class="QFrame" name="frame5_3">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>1</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_13">
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QFrame" name="frame6_3">
+             <property name="styleSheet">
+              <string notr="true">#frame6_3
+{
+	background-color: rgba(238, 238 ,238 ,0.8);
+}
+QGroupBox
+{
+	background-color:rgb(245, 245, 245);
+	border:0px solid red;
+	border-radius:30px
+}</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_9">
+              <property name="spacing">
+               <number>10</number>
+              </property>
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_10">
-                <property name="spacing">
-                 <number>10</number>
+               <widget class="QGroupBox" name="horizontalGroupBox_2">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>1</verstretch>
+                 </sizepolicy>
                 </property>
-                <property name="topMargin">
-                 <number>5</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>5</number>
-                </property>
-                <item>
-                 <widget class="QLineEdit" name="todo_line">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>20</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QDateTimeEdit" name="todo_date">
-                  <property name="displayFormat">
-                   <string>yyyy/M/d HH:mm</string>
-                  </property>
-                  <property name="calendarPopup">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_2">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="todo_add">
-                  <property name="styleSheet">
-                   <string notr="true">border: none;
-image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/add.png);</string>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="todo_edit">
-                  <property name="styleSheet">
-                   <string notr="true">border: none;
-image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/edit.png);</string>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="todo_delete">
-                  <property name="styleSheet">
-                   <string notr="true">border: none;
-image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/delete.png);</string>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
+                <layout class="QHBoxLayout" name="horizontalLayout_10">
+                 <property name="rightMargin">
+                  <number>50</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="label">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Agency FB</family>
+                     <pointsize>18</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>區域</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="comboBox_city">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
               </item>
               <item>
-               <widget class="QListWidget" name="todo_list">
-                <property name="font">
-                 <font>
-                  <family>微軟正黑體</family>
-                  <pointsize>14</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
+               <widget class="QGroupBox" name="horizontalGroupBox">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>7</verstretch>
+                 </sizepolicy>
                 </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_9">
+                 <property name="leftMargin">
+                  <number>30</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>30</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>30</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>30</number>
+                 </property>
+                 <item>
+                  <widget class="QTableView" name="tableView">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <attribute name="horizontalHeaderCascadingSectionResizes">
+                    <bool>false</bool>
+                   </attribute>
+                   <attribute name="verticalHeaderCascadingSectionResizes">
+                    <bool>false</bool>
+                   </attribute>
+                  </widget>
+                 </item>
+                </layout>
                </widget>
               </item>
              </layout>
@@ -887,7 +973,7 @@ image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/delete.png);</str
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="page_2"/>
+      <widget class="QWidget" name="page_4"/>
      </widget>
     </item>
    </layout>

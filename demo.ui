@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1149</width>
-    <height>707</height>
+    <width>1157</width>
+    <height>715</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -54,9 +54,15 @@
        </property>
        <item>
         <widget class="QFrame" name="user">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>2</verstretch>
+          </sizepolicy>
+         </property>
          <property name="minimumSize">
           <size>
-           <width>250</width>
+           <width>100</width>
            <height>0</height>
           </size>
          </property>
@@ -73,10 +79,10 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout">
           <property name="topMargin">
-           <number>55</number>
+           <number>30</number>
           </property>
           <property name="bottomMargin">
-           <number>75</number>
+           <number>20</number>
           </property>
           <item>
            <widget class="QFrame" name="usericon">
@@ -134,6 +140,18 @@
           </item>
           <item>
            <widget class="QLabel" name="username">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="sizeIncrement">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <family>Agency FB</family>
@@ -155,6 +173,12 @@
        </item>
        <item>
         <widget class="QListWidget" name="fuctionlist">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>3</verstretch>
+          </sizepolicy>
+         </property>
          <property name="font">
           <font>
            <family>微軟正黑體</family>
@@ -278,7 +302,7 @@ QListView::item:selected {
 }</string>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="page">
        <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -901,36 +925,44 @@ image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/delete.png);</str
        </layout>
       </widget>
       <widget class="QWidget" name="page_2">
-       <widget class="QFrame" name="frame6_2">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>10</y>
-          <width>768</width>
-          <height>662</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QFrame
+       <layout class="QVBoxLayout" name="verticalLayout_11">
+        <item>
+         <widget class="QFrame" name="frame_3">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_16">
+           <item>
+            <widget class="QFrame" name="frame_5">
+             <property name="styleSheet">
+              <string notr="true">QFrame
 {
 	background-color:rgba(151, 238, 238,0.8);
 }</string>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_7"/>
-       </widget>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_13"/>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="page_3">
-       <widget class="QFrame" name="frame6_3">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>10</y>
-          <width>771</width>
-          <height>671</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">#frame6_3
+       <layout class="QVBoxLayout" name="verticalLayout_13">
+        <item>
+         <widget class="QFrame" name="frame6_3">
+          <property name="styleSheet">
+           <string notr="true">#frame6_3
 {
 	background-color: rgba(238, 238 ,238 ,0.8);
 }
@@ -940,236 +972,241 @@ QGroupBox
 	border:0px solid red;
 	border-radius:30px
 }</string>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_9">
-         <property name="spacing">
-          <number>10</number>
-         </property>
-         <item>
-          <widget class="QGroupBox" name="horizontalGroupBox_2">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>1</verstretch>
-            </sizepolicy>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_9">
+           <property name="spacing">
+            <number>10</number>
            </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_12">
-            <property name="rightMargin">
-             <number>50</number>
-            </property>
-            <item>
-             <widget class="QLabel" name="label">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
+           <item>
+            <widget class="QGroupBox" name="horizontalGroupBox_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>1</verstretch>
+              </sizepolicy>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_12">
+              <property name="rightMargin">
+               <number>50</number>
               </property>
-              <property name="minimumSize">
-               <size>
-                <width>150</width>
-                <height>0</height>
-               </size>
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>150</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Agency FB</family>
+                  <pointsize>18</pointsize>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>區域</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="comboBox_city">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>30</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Agency FB</family>
+                  <pointsize>16</pointsize>
+                 </font>
+                </property>
+                <property name="toolTipDuration">
+                 <number>-1</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="horizontalGroupBox">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>7</verstretch>
+              </sizepolicy>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_10">
+              <property name="spacing">
+               <number>0</number>
               </property>
-              <property name="font">
-               <font>
-                <family>Agency FB</family>
-                <pointsize>18</pointsize>
-                <weight>50</weight>
-                <bold>false</bold>
-               </font>
+              <property name="leftMargin">
+               <number>30</number>
               </property>
-              <property name="text">
-               <string>區域</string>
+              <property name="topMargin">
+               <number>30</number>
               </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
+              <property name="rightMargin">
+               <number>30</number>
               </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QComboBox" name="comboBox_city">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>30</height>
-               </size>
+              <property name="bottomMargin">
+               <number>30</number>
               </property>
-              <property name="font">
-               <font>
-                <family>Agency FB</family>
-                <pointsize>16</pointsize>
-               </font>
-              </property>
-              <property name="toolTipDuration">
-               <number>-1</number>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QGroupBox" name="horizontalGroupBox">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>7</verstretch>
-            </sizepolicy>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_10">
-            <property name="spacing">
-             <number>0</number>
-            </property>
-            <property name="leftMargin">
-             <number>30</number>
-            </property>
-            <property name="topMargin">
-             <number>30</number>
-            </property>
-            <property name="rightMargin">
-             <number>30</number>
-            </property>
-            <property name="bottomMargin">
-             <number>30</number>
-            </property>
-            <item>
-             <widget class="QFrame" name="horizontalFrame">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>2</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">
+              <item>
+               <widget class="QFrame" name="horizontalFrame">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>2</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">
 	border-radius:px</string>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_18">
-               <property name="spacing">
-                <number>45</number>
-               </property>
-               <property name="leftMargin">
-                <number>15</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>25</number>
-               </property>
-               <property name="bottomMargin">
-                <number>0</number>
-               </property>
-               <item>
-                <layout class="QVBoxLayout" name="verticalLayout_12">
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_18">
+                 <property name="spacing">
+                  <number>45</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>15</number>
+                 </property>
                  <property name="topMargin">
-                  <number>55</number>
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>25</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
                  </property>
                  <item>
-                  <widget class="QLabel" name="temperature">
+                  <layout class="QVBoxLayout" name="verticalLayout_12">
+                   <property name="topMargin">
+                    <number>30</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="temperature">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>5</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>微軟正黑體</family>
+                       <pointsize>64</pointsize>
+                       <weight>75</weight>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true"/>
+                     </property>
+                     <property name="text">
+                      <string>30°C</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="weather">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>1</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>微軟正黑體</family>
+                       <pointsize>14</pointsize>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>晴天</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="weather_icon">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                      <horstretch>0</horstretch>
-                     <verstretch>5</verstretch>
+                     <verstretch>0</verstretch>
                     </sizepolicy>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <family>微軟正黑體</family>
-                     <pointsize>64</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
-                    </font>
                    </property>
                    <property name="styleSheet">
                     <string notr="true"/>
                    </property>
                    <property name="text">
-                    <string>30°C</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="weather">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                     <horstretch>0</horstretch>
-                     <verstretch>1</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <family>微軟正黑體</family>
-                     <pointsize>14</pointsize>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>晴天</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
+                    <string/>
                    </property>
                   </widget>
                  </item>
                 </layout>
-               </item>
-               <item>
-                <widget class="QLabel" name="weather_icon">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true"/>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QWidget" name="chart" native="true">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>3</verstretch>
-               </sizepolicy>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-        </layout>
-       </widget>
+               </widget>
+              </item>
+              <item>
+               <widget class="QWidget" name="chart" native="true">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>3</verstretch>
+                 </sizepolicy>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_9">
+                 <item>
+                  <widget class="QLabel" name="label_2">
+                   <property name="text">
+                    <string>TextLabel</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="page_4">
-       <widget class="QFrame" name="frame6_4">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>10</y>
-          <width>768</width>
-          <height>662</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QFrame
+       <layout class="QVBoxLayout" name="verticalLayout_14">
+        <item>
+         <widget class="QFrame" name="frame6_4">
+          <property name="styleSheet">
+           <string notr="true">QFrame QScrollArea
 {
 	background-color:rgba(255, 245, 238,0.8);
 }
@@ -1177,375 +1214,60 @@ QFrame QLabel
 {
 	background-color:rgba(255, 245, 238,0);
 }</string>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_8">
-         <property name="spacing">
-          <number>15</number>
-         </property>
-         <property name="leftMargin">
-          <number>45</number>
-         </property>
-         <property name="topMargin">
-          <number>40</number>
-         </property>
-         <property name="rightMargin">
-          <number>45</number>
-         </property>
-         <property name="bottomMargin">
-          <number>40</number>
-         </property>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_13">
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_8">
+           <property name="spacing">
+            <number>9</number>
+           </property>
+           <property name="leftMargin">
+            <number>9</number>
+           </property>
+           <property name="topMargin">
+            <number>9</number>
+           </property>
+           <property name="rightMargin">
+            <number>9</number>
+           </property>
+           <property name="bottomMargin">
+            <number>9</number>
+           </property>
            <item>
-            <widget class="QLabel" name="label_7">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>2</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="font">
-              <font>
-               <family>微軟正黑體</family>
-               <pointsize>16</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>暗黑模式</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="checkBox">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-               <horstretch>5</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="sizeIncrement">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="baseSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QCheckBox::indicator
+            <layout class="QVBoxLayout" name="verticalLayout_15">
+             <item>
+              <widget class="QScrollArea" name="scrollArea">
+               <property name="styleSheet">
+                <string notr="true">QAbstractScrollArea
 {
-	width : 40px;
-	height : 40px;
+	background-color:rgba(255, 245, 238,0.8);
+}
+QWidget#scrollAreaWidgetContents{
+	background-color:rgba(255, 245, 238,0);
 }</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="tristate">
-              <bool>false</bool>
-             </property>
-            </widget>
+               </property>
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="scrollAreaWidgetContents">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>771</width>
+                  <height>659</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_14">
-           <item>
-            <widget class="QLabel" name="label_6">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>2</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="font">
-              <font>
-               <family>微軟正黑體</family>
-               <pointsize>16</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>飛航模式</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="checkBox_2">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-               <horstretch>5</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="sizeIncrement">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="baseSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QCheckBox::indicator
-{
-	width : 40px;
-	height : 40px;
-}</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="tristate">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_16">
-           <item>
-            <widget class="QLabel" name="label_4">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>2</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="font">
-              <font>
-               <family>微軟正黑體</family>
-               <pointsize>16</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>window彈出視窗</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="checkBox_3">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-               <horstretch>5</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="sizeIncrement">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="baseSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QCheckBox::indicator
-{
-	width : 40px;
-	height : 40px;
-}</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="tristate">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_17">
-           <item>
-            <widget class="QLabel" name="label_3">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>2</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="font">
-              <font>
-               <family>微軟正黑體</family>
-               <pointsize>16</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>喝水檢測</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="checkBox_4">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-               <horstretch>5</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="sizeIncrement">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="baseSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QCheckBox::indicator
-{
-	width : 40px;
-	height : 40px;
-}</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="tristate">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_9">
-           <item>
-            <widget class="QLabel" name="label_2">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>2</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="font">
-              <font>
-               <family>微軟正黑體</family>
-               <pointsize>16</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>長時提醒</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="checkBox_5">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-               <horstretch>5</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="sizeIncrement">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="baseSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QCheckBox::indicator
-{
-	width : 40px;
-	height : 40px;
-}</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="tristate">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </widget>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>

@@ -14,10 +14,6 @@ from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QPushBut
 from eye_tracking import eye_detect
 from UI import Ui_MainWindow
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 014bbb255835d916e0f8f9979b70c759dc7daaa3
 #番茄鐘長短時設定
 class WorkTimeDialog(QDialog):
     def __init__(self, time_setting, parent=None):
@@ -147,7 +143,6 @@ class MainWindow_controller(QtWidgets.QMainWindow):
 
     #修改時間
     def change_time(self):
-<<<<<<< HEAD
         if self.timer_running:
             self.stop_timer()  
             
@@ -160,13 +155,6 @@ class MainWindow_controller(QtWidgets.QMainWindow):
             self.long_rest_time = dialog.long_rest_spinbox.value()
             self.remaining_time = self.work_time * 60
             self.update_timer_label()
-=======
-        dialog = WorkTimeDialog((self.work_time, self.short_rest_time, self.long_rest_time))
-        dialog.exec_()
-        self.work_time = dialog.work_spinbox.value()
-        self.short_rest_time = dialog.short_rest_spinbox.value()
-        self.long_rest_time = dialog.long_rest_spinbox.value()
->>>>>>> 014bbb255835d916e0f8f9979b70c759dc7daaa3
 
     def start_stop_timer(self):
         if self.timer_running:
@@ -179,17 +167,12 @@ class MainWindow_controller(QtWidgets.QMainWindow):
             return  # 如果計時器已經在運行，則不執行任何操作
         self.timer_running = True
         self.ui.tomato_start.setStyleSheet("border: none;\n"
-<<<<<<< HEAD
                                        "image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/stop.png);")
         if not self.timer_connected:
             # 連接 timeout 信號，但僅在第一次開始計時器時執行
             self.timer.timeout.connect(self.decrease_remaining_time)
             self.timer_connected = True
         
-=======
-    "image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/stop.png);")
-        self.timer.timeout.connect(self.decrease_remaining_time)
->>>>>>> 014bbb255835d916e0f8f9979b70c759dc7daaa3
         self.timer.start(1000)
         
     def stop_timer(self):
@@ -211,7 +194,6 @@ class MainWindow_controller(QtWidgets.QMainWindow):
             self.remaining_time = self.work_time * 60
         else:
             if self.bigrest == 4:
-<<<<<<< HEAD
                 self.remaining_time = self.long_rest_time * 60
             else:
                 self.remaining_time = self.short_rest_time * 60
@@ -227,22 +209,6 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         if self.remaining_time > 0:
             return
 
-=======
-                self.remaining_time = self.long_rest_time * 60  # 長休息
-            else:
-                self.remaining_time = self.short_rest_time * 60  # 短休息
-        self.update_timer_label()
-
-    #時鐘秒數遞減
-    def decrease_remaining_time(self):
-        self.remaining_time -= 1
-        self.ui.progressBar.setValue(self.remaining_time) 
-        self.update_timer_label()
-
-        if self.remaining_time > 0:
-            return
-
->>>>>>> 014bbb255835d916e0f8f9979b70c759dc7daaa3
         self.handle_timer_completion(False)
     
     #時鐘結束處理
@@ -252,17 +218,12 @@ class MainWindow_controller(QtWidgets.QMainWindow):
        
         if self.current_mode == 'Work':
             self.handle_work_completion(skip)
-<<<<<<< HEAD
             self.ui.tomato_start.setStyleSheet("border: none;\n"
             "image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/play.png);")
         else:
             self.handle_rest_completion()
             self.ui.tomato_start.setStyleSheet("border: none;\n"
             "image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/play.png);")
-=======
-        else:
-            self.handle_rest_completion()
->>>>>>> 014bbb255835d916e0f8f9979b70c759dc7daaa3
         self.ui.progressBar.setMaximum(self.remaining_time)
         self.update_timer_label()
       
@@ -427,17 +388,10 @@ class MainWindow_controller(QtWidgets.QMainWindow):
             self.ui.weather_icon.setStyleSheet("image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/多雲陣雨或雷雨.png);")
         elif "雨" in weather:
             self.ui.weather_icon.setStyleSheet("image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/多雲陣雨.png);")
-<<<<<<< HEAD
         elif "多雲" in weather and "時晴" in weather or "晴時" in weather:
             self.ui.weather_icon.setStyleSheet("image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/晴時多雲.png);")
         elif "雲" in weather:
             self.ui.weather_icon.setStyleSheet("image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/陰時多雲.png);")
-=======
-        elif "多雲" in weather and "時晴" in weather:
-            self.ui.weather_icon.setStyleSheet("image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/陰時多雲.png);")
-        elif "雲" in weather:
-            self.ui.weather_icon.setStyleSheet("image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/晴時多雲.png);")
->>>>>>> 014bbb255835d916e0f8f9979b70c759dc7daaa3
         elif "晴天" in weather:
             self.ui.weather_icon.setStyleSheet("image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/晴天.png);")
         else:

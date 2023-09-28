@@ -1,18 +1,30 @@
 import sys
+import os
+import typing
 import cv2
 import pandas as pd
 import numpy as np
 import requests
-
+import PyQt5.sip as sip
 from PyQt5.QtGui import *
-from PyQt5.QtCore import QDateTime
+from PyQt5.QtCore import QDateTime, QUrl, QObject, pyqtSignal, QThread
 from PyQt5 import QtWidgets, QtGui, QtCore, uic
 from PyQt5.QtCore import QTimer, Qt, QDate, QTime, QDateTime
 from PyQt5.QtChart import QChart, QChartView, QLineSeries, QValueAxis, QDateTimeAxis
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QPushButton, QInputDialog, QHeaderView, QSpinBox, QDialogButtonBox, QDialog
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QPushButton, QInputDialog, QHeaderView, QSpinBox, QDialogButtonBox, QDialog, QMessageBox, QStyle, QFileDialog, QLineEdit, QComboBox, QFormLayout
+from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 
+from win10toast import ToastNotifier  # 导入系统通知对象
+import time  # 系统时间模块
+import datetime
+from threading import Timer  # 定时器
+
+from camera import Camera
 from eye_tracking import eye_detect
+from stretch import stretchdectector as sd
+
 from UI import Ui_MainWindow
+
 
 #番茄鐘長短時設定
 class WorkTimeDialog(QDialog):
@@ -88,7 +100,7 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         self.timer_connected = False  # 用於跟蹤 timeout 信號的連接狀態
         self.current_mode = 'Work'  # 目前的模式（工作或休息）
         self.open_flag=True #姿態檢測模式
-        #self.video_stream=cv2.VideoCapture('D:/酪梨資料夾/大學作業/專題/pyqt/demo/test.mp4')
+        self.video_stream=cv2.VideoCapture('D:/酪梨資料夾/大學作業/專題/pyqt/demo/test.mp4')
         self.painter = QPainter(self)
         self.dt=eye_detect()
         
@@ -98,6 +110,8 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         self.ui.todo_date.setDateTime(QDateTime.currentDateTime())
         self.ui.todo_line.setVisible(False)
         self.ui.todo_date.setVisible(False)
+
+        self.create_player()
     
     #tab切換
     def tab_switch(self,Index):
@@ -143,18 +157,11 @@ class MainWindow_controller(QtWidgets.QMainWindow):
 
     #修改時間
     def change_time(self):
-        if self.timer_running:
-            self.stop_timer()  
-            
         dialog = WorkTimeDialog((self.work_time, self.short_rest_time, self.long_rest_time))
-        result = dialog.exec_()
-
-        if result == QDialog.Accepted:
-            self.work_time = dialog.work_spinbox.value()
-            self.short_rest_time = dialog.short_rest_spinbox.value()
-            self.long_rest_time = dialog.long_rest_spinbox.value()
-            self.remaining_time = self.work_time * 60
-            self.update_timer_label()
+        dialog.exec_()
+        self.work_time = dialog.work_spinbox.value()
+        self.short_rest_time = dialog.short_rest_spinbox.value()
+        self.long_rest_time = dialog.long_rest_spinbox.value()
 
     def start_stop_timer(self):
         if self.timer_running:
@@ -167,7 +174,8 @@ class MainWindow_controller(QtWidgets.QMainWindow):
             return  # 如果計時器已經在運行，則不執行任何操作
         self.timer_running = True
         self.ui.tomato_start.setStyleSheet("border: none;\n"
-                                       "image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/stop.png);")
+                                           "image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/stop.png);")
+        
         if not self.timer_connected:
             # 連接 timeout 信號，但僅在第一次開始計時器時執行
             self.timer.timeout.connect(self.decrease_remaining_time)
@@ -197,7 +205,7 @@ class MainWindow_controller(QtWidgets.QMainWindow):
                 self.remaining_time = self.long_rest_time * 60
             else:
                 self.remaining_time = self.short_rest_time * 60
-        self.update_timer_label()
+        self.update_timer_label()  # 手動更新計時器顯示
         self.start_timer()  # 重新啟動計時器
 
     #時鐘秒數遞減
@@ -212,18 +220,18 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         self.handle_timer_completion(False)
     
     #時鐘結束處理
-    def handle_timer_completion(self,skip):
+    def handle_timer_completion(self, skip):
         self.timer.stop()
         self.timer_running = False
-       
+
         if self.current_mode == 'Work':
             self.handle_work_completion(skip)
             self.ui.tomato_start.setStyleSheet("border: none;\n"
-            "image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/play.png);")
+                                           "image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/play.png);")
         else:
             self.handle_rest_completion()
             self.ui.tomato_start.setStyleSheet("border: none;\n"
-            "image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/play.png);")
+                                           "image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/play.png);")
         self.ui.progressBar.setMaximum(self.remaining_time)
         self.update_timer_label()
       
@@ -333,18 +341,19 @@ class MainWindow_controller(QtWidgets.QMainWindow):
             self.pushButton.setText('close')
         self.open_flag = bool(1-self.open_flag)#
     '''
-        
-    '''def paintEvent(self, a0: QtGui.QPaintEvent):
+
+    # 阿華 首頁 label影片
+    def paintEvent(self, a0: QtGui.QPaintEvent):
         if self.open_flag:
             ret, frame = self.video_stream.read()
             if frame is None:
                 return
-            frame=cv2.resize(frame,(self.ui.frame4.size().width(), frame.shape[0]),interpolation=cv2.INTER_AREA)
-            frame=cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
-            frame=self.dt.run(ret, frame)
-            self.Qframe=QImage(frame.data,frame.shape[1],frame.shape[0],frame.shape[1]*3,QImage.Format_RGB888)
+            frame = cv2.resize(frame,(self.ui.frame4.size().width(), frame.shape[0]), interpolation=cv2.INTER_AREA)
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            frame = self.dt.run(ret, frame)
+            self.Qframe=QImage(frame.data, frame.shape[1], frame.shape[0], frame.shape[1]*3, QImage.Format_RGB888)
             self.ui.face_tracking.setPixmap(QPixmap.fromImage(self.Qframe))
-            self.update()'''
+            self.update()
 
     #天氣預報功能
     # Slots
@@ -388,10 +397,10 @@ class MainWindow_controller(QtWidgets.QMainWindow):
             self.ui.weather_icon.setStyleSheet("image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/多雲陣雨或雷雨.png);")
         elif "雨" in weather:
             self.ui.weather_icon.setStyleSheet("image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/多雲陣雨.png);")
-        elif "多雲" in weather and "時晴" in weather or "晴時" in weather:
-            self.ui.weather_icon.setStyleSheet("image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/晴時多雲.png);")
-        elif "雲" in weather:
+        elif "多雲" in weather and "時晴" in weather:
             self.ui.weather_icon.setStyleSheet("image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/陰時多雲.png);")
+        elif "雲" in weather:
+            self.ui.weather_icon.setStyleSheet("image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/晴時多雲.png);")
         elif "晴天" in weather:
             self.ui.weather_icon.setStyleSheet("image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/晴天.png);")
         else:
@@ -410,7 +419,6 @@ class MainWindow_controller(QtWidgets.QMainWindow):
             if old_layout is not None:
                 for i in reversed(range(old_layout.count())):
                     old_layout.itemAt(i).widget().setParent(None)
-                import sip
                 sip.delete(old_layout)
            
         #折線數據
@@ -483,3 +491,167 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         v_box = QVBoxLayout()
         v_box.addWidget(chart_view)
         self.ui.chart.setLayout(v_box)
+
+    # 伸展操介面
+    # 影片播放
+    def create_player(self):
+        self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface)
+        videowidget = self.ui.widgetVideo
+
+        # buttton to play video
+        self.ui.btnPause.setEnabled(False)
+        self.ui.btnPause.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
+        self.ui.btnPause.clicked.connect(self.play_video)
+
+        self.ui.btnVideo1.clicked.connect(self.btn_choose_video)
+        self.ui.btnVideo2.clicked.connect(self.btn_choose_video)
+        self.ui.btnVideo3.clicked.connect(self.btn_choose_video)
+        self.ui.btnVideo4.clicked.connect(self.btn_choose_video)
+        self.ui.btnVideo5.clicked.connect(self.btn_choose_video)
+        self.ui.btnVideo6.clicked.connect(self.btn_choose_video)
+
+        # check_box to controll Enabled for ckboxVideo1~6
+        self.ui.ckboxVideo1.stateChanged.connect(self.checkbox_controll_btn_enabled)
+        self.ui.ckboxVideo2.stateChanged.connect(self.checkbox_controll_btn_enabled)
+        self.ui.ckboxVideo3.stateChanged.connect(self.checkbox_controll_btn_enabled)
+        self.ui.ckboxVideo4.stateChanged.connect(self.checkbox_controll_btn_enabled)
+        self.ui.ckboxVideo5.stateChanged.connect(self.checkbox_controll_btn_enabled)
+        self.ui.ckboxVideo6.stateChanged.connect(self.checkbox_controll_btn_enabled)
+
+        self.ui.slideVideo.sliderMoved.connect(self.set_position)
+        self.mediaPlayer.setVideoOutput(videowidget)
+        self.mediaPlayer.stateChanged.connect(self.mediastate_changed)
+        self.mediaPlayer.positionChanged.connect(self.position_changed)
+        self.mediaPlayer.durationChanged.connect(self.duration_changed)
+        self.mediaPlayer.mediaStatusChanged.connect(self.handle_media_status)
+
+    # 影片按鈕選擇
+    def btn_choose_video(self):
+        btn_name = self.sender().objectName()
+
+        global videoId
+
+        if btn_name == 'btnVideo1':
+            filename = 'A/1.mp4'
+            videoId = 1
+        elif btn_name == 'btnVideo2':
+            filename = 'A/2.mp4'
+            videoId = 2
+        elif btn_name == 'btnVideo3':
+            filename = 'A/3.mp4'
+            videoId = 3
+        elif btn_name == 'btnVideo4':
+            filename = 'A/4.mp4'
+            videoId = 4
+        elif btn_name == 'btnVideo5':
+            filename = 'A/5.mp4'
+            videoId = 5
+        elif btn_name == 'btnVideo6':
+            filename = 'A/6.mp4'
+            videoId = 6
+        self.open_file(filename)
+        self.play_video()
+
+    # 藉由 ckboxVideo 來判斷當前能不能播放影片
+    def checkbox_controll_btn_enabled(self, state):
+        check_box_name = self.sender().objectName()
+
+        # 打勾，則btn is not Enabled
+        if state == 2:
+            if   check_box_name == 'ckboxVideo1':
+                self.ui.btnVideo1.setEnabled(False)
+            elif check_box_name == 'ckboxVideo2':
+                self.ui.btnVideo2.setEnabled(False)
+            elif check_box_name == 'ckboxVideo3':
+                self.ui.btnVideo3.setEnabled(False)
+            elif check_box_name == 'ckboxVideo4':
+                self.ui.btnVideo4.setEnabled(False)
+            elif check_box_name == 'ckboxVideo5':
+                self.ui.btnVideo5.setEnabled(False)
+            elif check_box_name == 'ckboxVideo6':
+                self.ui.btnVideo6.setEnabled(False)
+        elif state == 0:
+            if   check_box_name == 'ckboxVideo1':
+                self.ui.btnVideo1.setEnabled(True)
+            elif check_box_name == 'ckboxVideo2':
+                self.ui.btnVideo2.setEnabled(True)
+            elif check_box_name == 'ckboxVideo3':
+                self.ui.btnVideo3.setEnabled(True) 
+            elif check_box_name == 'ckboxVideo4':
+                self.ui.btnVideo4.setEnabled(True)
+            elif check_box_name == 'ckboxVideo5':
+                self.ui.btnVideo5.setEnabled(True)
+            elif check_box_name == 'ckboxVideo6':
+                self.ui.btnVideo6.setEnabled(True)
+
+    # 開伸展操範例影片
+    def open_file(self, filename):
+        if filename != '':
+            self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(filename)))
+            self.ui.btnPause.setEnabled(True)
+
+    # 變更播放暫停按鍵的 icon
+    def mediastate_changed(self, state):
+        if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
+            self.ui.btnPause.setIcon(self.style().standardIcon(QStyle.SP_MediaPause))
+        else:
+            self.ui.btnPause.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
+
+    # 進度條
+    def position_changed(self, position):
+        self.slideVideo.setValue(position)
+
+    # 進度條移動範圍
+    def duration_changed(self, duration):
+        self.slideVideo.setRange(0, duration)
+
+    # 連接影片與伸展操視窗
+    def handle_media_status(self, status):
+        if status == QMediaPlayer.EndOfMedia:
+            if sd.choose(videoId-1):
+                if videoId == 1:
+                    self.ui.ckboxVideo1.setCheckState(2)
+                elif videoId == 2:
+                    self.ui.ckboxVideo2.setCheckState(2)
+                elif videoId == 3:
+                    self.ui.ckboxVideo3.setCheckState(2)
+                elif videoId == 4:
+                    self.ui.ckboxVideo4.setCheckState(2)
+                elif videoId == 5:
+                    self.ui.ckboxVideo5.setCheckState(2)
+                elif videoId == 6:
+                    self.ui.ckboxVideo6.setCheckState(2)
+
+    # 播放鍵按下去後的影片處理
+    def play_video(self):
+        if (self.mediaPlayer.state() == QMediaPlayer.PlayingState):
+            self.mediaPlayer.pause()
+        else:
+            self.mediaPlayer.play()
+
+    # 進度條與影片進度的關聯
+    def set_position(self, position):
+        self.mediaPlayer.setPosition(position)
+
+
+# Windows 通知欄提醒
+class WinNotify(QThread):
+    def __init__(self, parent = None):
+        super(WinNotify, self).__init__(parent)
+        self.parent = parent
+        self.notify = ToastNotifier()
+        self.working = True
+ 
+    def __del__(self):
+        self.working = False
+        self.wait()
+
+    def run(self):
+        self.show_toast()
+    
+    def show_toast(self):
+        # TODO 該如何傳遞要顯示的訊息
+        notifyHead = "番茄鐘-該休息了"
+        notifyText = "您已工作了300分鐘,該休息了"
+        notifyIcon = "img/tomato.png"
+        self.notify.show_toast(f"{notifyHead}", f"{notifyText}", duration=5, threaded=True, icon_path=notifyIcon)

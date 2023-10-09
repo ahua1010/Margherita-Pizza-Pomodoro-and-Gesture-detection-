@@ -167,7 +167,6 @@
             </property>
            </widget>
           </item>
-<<<<<<< HEAD
           <item>
            <widget class="QFrame" name="frame_11">
             <property name="frameShape">
@@ -198,38 +197,11 @@
                </property>
                <property name="styleSheet">
                 <string notr="true">QListView {
-=======
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QListWidget" name="fuctionlist">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>3</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <family>微軟正黑體</family>
-           <pointsize>14</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QListView {
->>>>>>> 960106a42dcf4312531c845f278586a92bb1ab63
 	border:0px;
 	border-bottom-right-radius:30px;
 	border-bottom-left-radius:30px;
     outline: 0px;
-<<<<<<< HEAD
 	background-color: rgba(238, 238 ,238 ,0);
-=======
-
->>>>>>> 960106a42dcf4312531c845f278586a92bb1ab63
 }
 QListView::item{
 	border:0px;
@@ -248,7 +220,6 @@ QListView::item:selected {
 	border-radius:8px;
 }
 </string>
-<<<<<<< HEAD
                </property>
                <property name="lineWidth">
                 <number>0</number>
@@ -328,77 +299,6 @@ QListView::item:selected {
            </widget>
           </item>
          </layout>
-=======
-         </property>
-         <property name="lineWidth">
-          <number>0</number>
-         </property>
-         <property name="verticalScrollBarPolicy">
-          <enum>Qt::ScrollBarAlwaysOff</enum>
-         </property>
-         <property name="horizontalScrollBarPolicy">
-          <enum>Qt::ScrollBarAlwaysOff</enum>
-         </property>
-         <property name="currentRow">
-          <number>-1</number>
-         </property>
-         <item>
-          <property name="text">
-           <string>首頁</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>17</pointsize>
-           </font>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>img/home.png</normaloff>img/home.png</iconset>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>伸展操</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>17</pointsize>
-           </font>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>img/exercise.png</normaloff>img/exercise.png</iconset>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>天氣</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>17</pointsize>
-           </font>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>img/news.png</normaloff>img/news.png</iconset>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>設定</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>17</pointsize>
-           </font>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>img/setting2.png</normaloff>img/setting2.png</iconset>
-          </property>
-         </item>
->>>>>>> 960106a42dcf4312531c845f278586a92bb1ab63
         </widget>
        </item>
       </layout>
@@ -1046,7 +946,6 @@ image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/delete.png);</str
        <layout class="QVBoxLayout" name="verticalLayout_11">
         <item>
          <widget class="QFrame" name="vidFrame">
-<<<<<<< HEAD
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
             <horstretch>0</horstretch>
@@ -1056,8 +955,6 @@ image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/delete.png);</str
           <property name="styleSheet">
            <string notr="true">background-color:rgba(169,169,169,0.7);</string>
           </property>
-=======
->>>>>>> 960106a42dcf4312531c845f278586a92bb1ab63
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -1065,7 +962,6 @@ image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/delete.png);</str
            <enum>QFrame::Raised</enum>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_19">
-<<<<<<< HEAD
            <property name="spacing">
             <number>15</number>
            </property>
@@ -1513,210 +1409,6 @@ QPushButton:hover
                 </item>
                </layout>
               </widget>
-=======
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayout_20" stretch="8,1,1">
-             <item>
-              <widget class="QVideoWidget" name="widgetVideo" native="true">
-               <property name="autoFillBackground">
-                <bool>false</bool>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">videoget{
- color : rgb(0, 0, 0)
-
-}
-</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <layout class="QVBoxLayout" name="verticalLayout_21">
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_17">
-                 <item>
-                  <widget class="QPushButton" name="btnVideo1">
-                   <property name="text">
-                    <string>video_1</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="btnVideo2">
-                   <property name="text">
-                    <string>video_2</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="btnVideo3">
-                   <property name="text">
-                    <string>video_3</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="btnVideo4">
-                   <property name="text">
-                    <string>video_4</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="btnVideo5">
-                   <property name="text">
-                    <string>video_5</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="btnVideo6">
-                   <property name="text">
-                    <string>video_6</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_19" stretch="1,1,1,1,1,1">
-                 <property name="spacing">
-                  <number>0</number>
-                 </property>
-                 <property name="sizeConstraint">
-                  <enum>QLayout::SetNoConstraint</enum>
-                 </property>
-                 <property name="leftMargin">
-                  <number>0</number>
-                 </property>
-                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-                  <widget class="QCheckBox" name="ckboxVideo1">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QCheckBox::indicator{ subcontrol-position:center  center;};</string>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkable">
-                    <bool>true</bool>
-                   </property>
-                   <property name="checked">
-                    <bool>false</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-                  <widget class="QCheckBox" name="ckboxVideo2">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QCheckBox::indicator{ subcontrol-position:center  center;};</string>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkable">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item alignment="Qt::AlignHCenter">
-                  <widget class="QCheckBox" name="ckboxVideo3">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QCheckBox::indicator{ subcontrol-position:center  center;};</string>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkable">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item alignment="Qt::AlignHCenter">
-                  <widget class="QCheckBox" name="ckboxVideo4">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QCheckBox::indicator{ subcontrol-position:center  center;};</string>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkable">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item alignment="Qt::AlignHCenter">
-                  <widget class="QCheckBox" name="ckboxVideo5">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QCheckBox::indicator{ subcontrol-position:center  center;};</string>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkable">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item alignment="Qt::AlignHCenter">
-                  <widget class="QCheckBox" name="ckboxVideo6">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QCheckBox::indicator{ subcontrol-position:center  center;};</string>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkable">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_20">
-               <item>
-                <widget class="QPushButton" name="btnOpenVideo">
-                 <property name="text">
-                  <string>open video</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="btnPause">
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSlider" name="slideVideo">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
-               </item>
-              </layout>
->>>>>>> 960106a42dcf4312531c845f278586a92bb1ab63
              </item>
             </layout>
            </item>
@@ -1732,11 +1424,7 @@ QPushButton:hover
           <property name="styleSheet">
            <string notr="true">#frame6_3
 {
-<<<<<<< HEAD
 	background-color: rgba(0,204,255,0.3);
-=======
-	background-color: rgba(238, 238 ,238 ,0.8);
->>>>>>> 960106a42dcf4312531c845f278586a92bb1ab63
 }
 QGroupBox
 {
@@ -2859,7 +2547,6 @@ QFrame QGroupBox QFrame
         </item>
        </layout>
       </widget>
-<<<<<<< HEAD
       <widget class="QWidget" name="page_5">
        <layout class="QHBoxLayout" name="horizontalLayout_35">
         <item>
@@ -2999,8 +2686,6 @@ image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/back.png);</strin
         </item>
        </layout>
       </widget>
-=======
->>>>>>> 960106a42dcf4312531c845f278586a92bb1ab63
      </widget>
     </item>
    </layout>

@@ -14,7 +14,7 @@ import time  # 系统时间模块
 import datetime
 from threading import Timer  # 定时器
 
-from stretch import stretchdectector as sd
+from stretch import stretch_detector as stretch
 from hunchback_detection import HunchbackDetection
 
 from UI import Ui_MainWindow
@@ -519,7 +519,7 @@ class MainWindow_controller(QtWidgets.QMainWindow):
     # 連接影片與伸展操視窗
     def handle_media_status(self, status):
         if status == QMediaPlayer.EndOfMedia:
-            sd.choose(videoId-1)
+            stretch.choose(videoId-1)
 
     # 播放鍵按下去後的影片處理
     def play_video(self):

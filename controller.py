@@ -15,7 +15,7 @@ import datetime
 from threading import Timer  # 定时器
 
 from stretch import stretch_detector as stretch
-from hunchback_detection import HunchbackDetection
+from pose.pose_detection import PoseDetection
 
 from UI import Ui_MainWindow
 
@@ -52,11 +52,11 @@ class MainWindow_controller(QtWidgets.QMainWindow):
 
         # 首頁辨識初始
         # 設定相機功能
-        self.ProcessCam = HunchbackDetection()  # 建立相機物件
+        self.PoseCam = PoseDetection()  # 建立相機物件
         self.openCam()
-        if self.ProcessCam.connect:
+        if self.PoseCam.connect:
             # 連接影像訊號 (rawdata) 至 getRaw()
-            self.ProcessCam.rawdata.connect(self.getRawImg)  # 槽功能：取得並顯示影像
+            self.PoseCam.rawdata.connect(self.getRawImg)  # 槽功能：取得並顯示影像
 
         self.create_player()
 
@@ -64,7 +64,7 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         print()
         print("close")
         print()
-        self.ProcessCam.close()
+        self.PoseCam.close()
     
     #tab切換
     def tab_switch(self,Index):
@@ -288,9 +288,9 @@ class MainWindow_controller(QtWidgets.QMainWindow):
 
     # 首頁影像辨識
     def openCam(self):
-        if self.ProcessCam.connect:
-            self.ProcessCam.open()
-            self.ProcessCam.start()
+        if self.PoseCam.connect:
+            self.PoseCam.open()
+            self.PoseCam.start()
 
     def getRawImg(self, data):
         self.showDataImg(data)

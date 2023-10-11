@@ -8,10 +8,10 @@ import tensorflow as tf
 from PyQt5 import QtCore
 # from tensorflow import keras
 
-class HunchbackDetection(QtCore.QThread):
+class PoseDetection(QtCore.QThread):
     rawdata = QtCore.pyqtSignal(np.ndarray)  # 建立傳遞信號，需設定傳遞型態為 np.ndarray
 
-    def __init__(self, parent=None, model_file='model.sav'):
+    def __init__(self, parent=None, model_file='./pose/model.sav'):
         super().__init__(parent)
         # AI hunchback
         self.model = pickle.load(open(model_file, 'rb'))
@@ -118,7 +118,7 @@ class HunchbackDetection(QtCore.QThread):
                     lm_result.append(results.pose_landmarks.landmark[lm_idx].z)
                     lm_result.append(results.pose_landmarks.landmark[lm_idx].visibility)
                 lm_result = np.array(lm_result)[None, :]
-                self.pred = np.argmax(self.model.predict(lm_result)[0])
+                self.pred = np.argmax(self.model.predict(lm_result, verbose=0)[0])
             else: pass
         finally:
             self.img_lock.release()

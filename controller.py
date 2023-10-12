@@ -68,17 +68,14 @@ class MainWindow_controller(QtWidgets.QMainWindow):
     
     #tab切換
     def tab_switch(self,Index):
+        self.openCam()
         if self.ui.fuctionlist.item(self.ui.fuctionlist.row(Index)).text() == "首頁":
-            self.openCam()
             self.ui.stackedWidget.setCurrentIndex(0)
         elif self.ui.fuctionlist.item(self.ui.fuctionlist.row(Index)).text() == "伸展操":
-            self.ProcessCam.stop()
             self.ui.stackedWidget.setCurrentIndex(1)
         elif self.ui.fuctionlist.item(self.ui.fuctionlist.row(Index)).text() == "天氣":
-            self.ProcessCam.stop()
             self.ui.stackedWidget.setCurrentIndex(2)
         elif self.ui.fuctionlist.item(self.ui.fuctionlist.row(Index)).text() == "設定":
-            self.ProcessCam.stop()
             self.ui.stackedWidget.setCurrentIndex(3)
         else:
             self.ui.stackedWidget.setCurrentIndex(0)
@@ -476,6 +473,7 @@ class MainWindow_controller(QtWidgets.QMainWindow):
 
     # 影片按鈕選擇
     def video_select(self):
+        self.PoseCam.stop()
         self.ui.stackedWidget.setCurrentIndex(4)
         btn_name = self.sender().objectName()
 

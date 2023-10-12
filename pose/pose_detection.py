@@ -34,18 +34,17 @@ class PoseDetection(QtCore.QThread):
 
         # Thread lock
         self.img_lock = threading.Lock()
-
-        # camera
-        self.frame_num = 0
-        self.cam = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-        if self.cam is None or not self.cam.isOpened():
-            self.connect = False
-            self.running = False
-        else:
-            self.connect = True
-            self.running = False
+        self.running = False
 
     def run(self):
+        # camera
+        self.frame_num = 0
+        self.cam = cv2.VideoCapture(0)
+        if self.cam is None or not self.cam.isOpened():
+            self.running = False
+        else:
+            self.running = True
+
         with self.mp_pose.Pose(
         model_complexity=1,
         min_detection_confidence=0.5,
@@ -59,7 +58,7 @@ class PoseDetection(QtCore.QThread):
          min_tracking_confidence=0.5
          ) as self.face_mesh:
             
-            while self.running and self.connect:
+            while self.running:
                 ret, img = self.cam.read()
                 if ret:
                     img = cv2.flip(img, 1)
@@ -101,7 +100,7 @@ class PoseDetection(QtCore.QThread):
                     self.rawdata.emit(img)
                 else:
                     print("Warning!!!")
-                    self.connect = False
+                    self.running = False
 
     def hunchbackPredict(self, img):
         self.img_lock.acquire()
@@ -194,18 +193,14 @@ class PoseDetection(QtCore.QThread):
         return dist
     
     def open(self):
-        if self.connect:
-            self.running = True
-    
-    def stop(self):
-        if self.connect:
-            self.running = False
+        self.running = True
 
     def close(self):
-        if self.connect:
-            self.running = False
-            time.sleep(1)
-            self.cam.release()
+        self.thread_drawsyPredict.join()
+        self.thread_hunchbackPredict.join()
+
+        self.running = False
+        self.cam.release()
 
 
 if __name__ == "__main__":

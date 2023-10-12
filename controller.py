@@ -53,22 +53,15 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         # 首頁辨識初始
         # 設定相機功能
         self.PoseCam = PoseDetection()  # 建立相機物件
-        self.openCam()
-        if self.PoseCam.connect:
-            # 連接影像訊號 (rawdata) 至 getRaw()
-            self.PoseCam.rawdata.connect(self.getRawImg)  # 槽功能：取得並顯示影像
+        self.openPoseCam()
+        # 連接影像訊號 (rawdata) 至 getRaw()
+        self.PoseCam.rawdata.connect(self.getRawImg)  # 槽功能：取得並顯示影像
 
         self.create_player()
-
-    def closeEvent(self, event):
-        print()
-        print("close")
-        print()
-        self.PoseCam.close()
     
     #tab切換
     def tab_switch(self,Index):
-        self.openCam()
+        self.openPoseCam()
         if self.ui.fuctionlist.item(self.ui.fuctionlist.row(Index)).text() == "首頁":
             self.ui.stackedWidget.setCurrentIndex(0)
         elif self.ui.fuctionlist.item(self.ui.fuctionlist.row(Index)).text() == "伸展操":
@@ -284,10 +277,13 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         self.ui.todo_date.setDateTime(date_time)
 
     # 首頁影像辨識
-    def openCam(self):
-        if self.PoseCam.connect:
-            self.PoseCam.open()
-            self.PoseCam.start()
+    def openPoseCam(self):
+        self.PoseCam.open()
+        self.PoseCam.start()
+
+    def closePoseCam(self):
+        self.PoseCam.sleep(1)
+        self.PoseCam.close()
 
     def getRawImg(self, data):
         self.showDataImg(data)
@@ -473,7 +469,7 @@ class MainWindow_controller(QtWidgets.QMainWindow):
 
     # 影片按鈕選擇
     def video_select(self):
-        self.PoseCam.stop()
+        self.closePoseCam()
         self.ui.stackedWidget.setCurrentIndex(4)
         btn_name = self.sender().objectName()
 

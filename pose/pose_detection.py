@@ -147,10 +147,6 @@ class PoseDetection(QtCore.QThread):
 
         Avg_EAR = (left_ear + right_ear) / 2
 
-        print()
-        print("Avg_EAR: ", Avg_EAR)
-        print()
-
         return Avg_EAR
     
     def get_ear(self, landmarks, refer_idxs, frame_width, frame_height):

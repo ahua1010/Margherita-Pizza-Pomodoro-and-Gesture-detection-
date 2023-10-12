@@ -205,5 +205,5 @@ class PoseDetection(QtCore.QThread):
 
 
 if __name__ == "__main__":
-    hunchback_detector = HunchbackDetection()
+    hunchback_detector = PoseDetection()
     hunchback_detector.start()

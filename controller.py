@@ -31,7 +31,7 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         #self.ui.setupUi(self)
         self.renewWeatherData()
         self.setup_control()
-        self.uiDefinitions()
+        # self.uiDefinitions()
 
         #主頁設置
         self.ui.stackedWidget.setCurrentIndex(0)
@@ -98,7 +98,6 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         if sender is not None:
             button_text = sender.text()
             if button_text == "Clock":
-                self.openCam()
                 self.ui.stackedWidget.setCurrentIndex(0)
             elif button_text == "Stretch":
                 self.ui.stackedWidget.setCurrentIndex(1)

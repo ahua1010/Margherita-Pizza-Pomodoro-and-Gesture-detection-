@@ -6,6 +6,7 @@ import pickle
 import numpy as np
 import tensorflow as tf
 from PyQt5 import QtCore
+from PyQt5.QtMultimedia import QSound
 # from tensorflow import keras
 
 class PoseDetection(QtCore.QThread):
@@ -18,6 +19,7 @@ class PoseDetection(QtCore.QThread):
         self.mp_pose = mp.solutions.pose
         self.target_lm_idx = [0, 2, 5, 9, 10, 11, 12]
         self.pred = -1
+        self.hunchback_alerts = QSound('./pose/hunchback_alerts.wav', self)
 
         # AI drowsy
         self.mp_face_mesh = mp.solutions.face_mesh
@@ -31,6 +33,7 @@ class PoseDetection(QtCore.QThread):
         self.chosen_left_eye_idxs  = [362, 385, 387, 263, 373, 380]
         self.chosen_right_eye_idxs = [33,  160, 158, 133, 153, 144]
         self.drowsy_frames = 0
+        self.drawsy_alerts = QSound('./pose/drawsy_alerts.wav', self)
 
         # Thread lock
         self.img_lock = threading.Lock()
@@ -71,17 +74,22 @@ class PoseDetection(QtCore.QThread):
 
                     if   self.pred == 0:
                         img = cv2.putText(img, 'Excellent Posture', (30, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (51, 255, 153), 2, cv2.LINE_AA)
+                        # self.hunchback_alerts.stop()
                     elif self.pred == 1:
                         img = cv2.putText(img, 'Okay Posture', (30, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (51, 255, 255), 2, cv2.LINE_AA)
+                        # self.hunchback_alerts.stop()
                     elif self.pred == 2:
                         img = cv2.putText(img, 'Bad Posture', (30, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (51, 153, 255), 2, cv2.LINE_AA)
+                        self.hunchback_alerts.play()
                     elif self.pred == 3:
                         img = cv2.putText(img, 'Terrible Posture', (30, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (51, 51, 255), 2, cv2.LINE_AA)
+                        self.hunchback_alerts.play()
                     else: 
                         img = cv2.putText(img, 'Start Analyzing', (30, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, ((255, 0, 0)), 2, cv2.LINE_AA)
                     
                     if self.drowsy_frames > 10:
                         img = cv2.putText(img, 'ALERT', fontFace=0, org=(200, 300), fontScale=3, color=(0, 255, 0), thickness = 3)
+                        self.drawsy_alerts.play()
 
                     # if self.frame_num == 0:
                     #     self.time_start = time.time()

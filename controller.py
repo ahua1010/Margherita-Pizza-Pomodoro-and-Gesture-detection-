@@ -1,12 +1,13 @@
+import UI_main_rc
 import numpy as np
 import requests
+import sys
 import PyQt5.sip as sip
+from PyQt5 import QtWidgets, QtGui, uic, QtCore
 from PyQt5.QtGui import *
-from PyQt5.QtCore import QDateTime, QUrl, QThread
-from PyQt5 import QtWidgets, QtGui, uic
-from PyQt5.QtCore import QTimer, QDateTime
+from PyQt5.QtCore import Qt, QDateTime, QUrl, QThread, QTimer, QDateTime, QPoint, QEvent
 from PyQt5.QtChart import QChart, QChartView, QLineSeries, QValueAxis, QDateTimeAxis
-from PyQt5.QtWidgets import QVBoxLayout, QLabel, QSpinBox, QDialogButtonBox, QDialog, QMessageBox, QStyle
+from PyQt5.QtWidgets import QVBoxLayout, QLabel, QSpinBox, QDialogButtonBox, QDialog, QMessageBox, QStyle, QSizeGrip
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 
 from win10toast import ToastNotifier  # 导入系统通知对象
@@ -16,8 +17,12 @@ from threading import Timer  # 定时器
 
 from stretch import stretch_detector as stretch
 from pose.pose_detection import PoseDetection
+from app_settings import Settings
 
 from UI import Ui_MainWindow
+
+#GLobal
+GLOBAL_STATE = False
 
 class MainWindow_controller(QtWidgets.QMainWindow):
     def __init__(self):
@@ -26,8 +31,17 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         #self.ui.setupUi(self)
         self.renewWeatherData()
         self.setup_control()
-        self.ui.fuctionlist.itemClicked.connect(self.tab_switch)
+        self.uiDefinitions()
+
+        #主頁設置
         self.ui.stackedWidget.setCurrentIndex(0)
+        self.ui.btn_clock.clicked.connect(self.tab_switch)
+        self.ui.btn_stretch.clicked.connect(self.tab_switch)
+        self.ui.btn_weather.clicked.connect(self.tab_switch)
+        self.ui.appMargins = QVBoxLayout(self.ui.styleSheet)
+        self.ui.appMargins.setSpacing(0)
+        self.ui.appMargins.setObjectName(u"appMargins")
+        self.ui.appMargins.setContentsMargins(10, 10, 10, 10)
 
         #番茄鐘初始
         self.tomato = 0
@@ -50,38 +64,147 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         self.ui.todo_line.setVisible(False)
         self.ui.todo_date.setVisible(False)
 
+        # 視窗控制參數
+        self._startPos = None
+        self._endPos = None
+        self._tracking = False
+
         # 首頁辨識初始
-        # 設定相機功能
         self.PoseCam = PoseDetection()  # 建立相機物件
         self.openCam()
         if self.PoseCam.connect:
             # 連接影像訊號 (rawdata) 至 getRaw()
             self.PoseCam.rawdata.connect(self.getRawImg)  # 槽功能：取得並顯示影像
-
         self.create_player()
+        
+        #選擇頁面初始化
+        self.add_shadow()
+        self.ui.btnVideoBg1.mouseReleaseEvent = lambda event:self.video_select(event,1)
+        self.ui.btnVideoBg2.mouseReleaseEvent = lambda event:self.video_select(event,2)
+        self.ui.btnVideoBg3.mouseReleaseEvent = lambda event:self.video_select(event,3)
+        self.ui.btnVideoBg4.mouseReleaseEvent = lambda event:self.video_select(event,4)
+        self.ui.btnVideoBg5.mouseReleaseEvent = lambda event:self.video_select(event,5)
+        self.ui.btnVideoBg6.mouseReleaseEvent = lambda event:self.video_select(event,6)
 
+    #返回當前位置狀態
+    def returStatus(self):
+        return GLOBAL_STATE
+
+    # 初始化頁面設定
+    def uiDefinitions(self):
+        def dobleClickMaximizeRestore(event):
+            # IF DOUBLE CLICK CHANGE STATUS
+            if event.type() == QEvent.MouseButtonDblClick:
+                QTimer.singleShot(250, lambda: self.maximize_restore(self))
+        self.ui.titleRightInfo.mouseDoubleClickEvent = dobleClickMaximizeRestore
+
+        if Settings.ENABLE_CUSTOM_TITLE_BAR:
+            #STANDARD TITLE BAR
+            self.setWindowFlags(Qt.FramelessWindowHint)
+            self.setAttribute(Qt.WA_TranslucentBackground)
+
+            # MOVE WINDOW / MAXIMIZE / RESTORE
+            def moveWindow(event):
+                # IF MAXIMIZED CHANGE TO NORMAL
+                if self.returStatus():
+                    self.maximize_restore(self)
+                # MOVE WINDOW
+                if event.buttons() == Qt.LeftButton:
+                    self.move(self.pos() + event.globalPos() - self.dragPos)
+                    self.dragPos = event.globalPos()
+                    event.accept()
+            self.ui.titleRightInfo.mouseMoveEvent = moveWindow
+
+        else:
+            self.ui.appMargins.setContentsMargins(0, 0, 0, 0)
+            self.ui.minimizeAppBtn.hide()
+            self.ui.maximizeRestoreAppBtn.hide()
+            self.ui.closeAppBtn.hide()
+            self.ui.frame_size_grip.hide()
+
+        # DROP SHADOW
+        self.shadow = QtWidgets.QGraphicsDropShadowEffect(self)
+        self.shadow.setBlurRadius(17)
+        self.shadow.setXOffset(0)
+        self.shadow.setYOffset(0)
+        self.shadow.setColor(QColor(0, 0, 0, 150))
+        self.ui.bgApp.setGraphicsEffect(self.shadow)
+
+        # RESIZE WINDOW
+        self.sizegrip = QSizeGrip(self.ui.frame_size_grip)
+        self.sizegrip.setStyleSheet("width: 20px; height: 20px; margin 0px; padding: 0px;")
+
+        # MINIMIZE
+        self.ui.minimizeAppBtn.clicked.connect(lambda: self.showMinimized())
+
+        # MAXIMIZE/RESTORE
+        self.ui.maximizeRestoreAppBtn.clicked.connect(lambda: self.maximize_restore())
+
+        # CLOSE APPLICATION
+        self.ui.closeAppBtn.clicked.connect(lambda: self.close())
+
+    def maximize_restore(self):
+        global GLOBAL_STATE
+        status = GLOBAL_STATE
+        if status == False:
+            self.showMaximized()
+            GLOBAL_STATE = True
+            self.ui.appMargins.setContentsMargins(0, 0, 0, 0)
+            self.ui.maximizeRestoreAppBtn.setToolTip("Restore")
+            self.ui.maximizeRestoreAppBtn.setIcon(QIcon(u":/image/img/icon_restore.png"))
+            self.ui.frame_size_grip.hide()
+            # self.left_grip.hide()
+            # self.right_grip.hide()
+            # self.top_grip.hide()
+            # self.bottom_grip.hide()
+        else:
+            GLOBAL_STATE = False
+            self.showNormal()
+            self.resize(self.width()+1, self.height()+1)
+            self.ui.appMargins.setContentsMargins(10, 10, 10, 10)
+            self.ui.maximizeRestoreAppBtn.setToolTip("Maximize")
+            self.ui.maximizeRestoreAppBtn.setIcon(QIcon(u":/image/img/icon_maximize.png"))
+            self.ui.frame_size_grip.show()
+            # self.left_grip.show()
+            # self.right_grip.show()
+            # self.top_grip.show()
+            # self.bottom_grip.show()
+
+    #事件處理
     def closeEvent(self, event):
-        print()
         print("close")
-        print()
         self.PoseCam.close()
+    
+    def mouseMoveEvent(self, e: QMouseEvent):  # 重写移动事件
+         if self._tracking:
+            self._endPos = e.pos() - self._startPos
+            self.move(self.pos() + self._endPos)
+    def mousePressEvent(self, event):
+        # SET DRAG POS WINDOW
+        self.dragPos = event.globalPos()
+ 
+    def mouseReleaseEvent(self, e: QMouseEvent):
+        if e.button() == Qt.LeftButton:
+            self._tracking = False
+            self._startPos = None
+            self._endPos = None
     
     #tab切換
     def tab_switch(self,Index):
-        if self.ui.fuctionlist.item(self.ui.fuctionlist.row(Index)).text() == "首頁":
-            self.openCam()
-            self.ui.stackedWidget.setCurrentIndex(0)
-        elif self.ui.fuctionlist.item(self.ui.fuctionlist.row(Index)).text() == "伸展操":
-            self.ProcessCam.stop()
-            self.ui.stackedWidget.setCurrentIndex(1)
-        elif self.ui.fuctionlist.item(self.ui.fuctionlist.row(Index)).text() == "天氣":
-            self.ProcessCam.stop()
-            self.ui.stackedWidget.setCurrentIndex(2)
-        elif self.ui.fuctionlist.item(self.ui.fuctionlist.row(Index)).text() == "設定":
-            self.ProcessCam.stop()
-            self.ui.stackedWidget.setCurrentIndex(3)
-        else:
-            self.ui.stackedWidget.setCurrentIndex(0)
+        sender = self.sender()  # 獲取發送信號的按鈕
+        if sender is not None:
+            button_text = sender.text()
+            if button_text == "Clock":
+                self.openCam()
+                self.ui.stackedWidget.setCurrentIndex(0)
+            elif button_text == "Stretch":
+                self.ui.stackedWidget.setCurrentIndex(1)
+            elif button_text == "Weather":
+                self.ui.stackedWidget.setCurrentIndex(2)
+            elif button_text == "Setting":
+                self.ui.stackedWidget.setCurrentIndex(3)
+            else:
+                self.ui.stackedWidget.setCurrentIndex(0)
         
     #連接按鈕
     def setup_control(self):
@@ -416,7 +539,6 @@ class MainWindow_controller(QtWidgets.QMainWindow):
                 max_temp.append(x_values[value].toMSecsSinceEpoch(), y_values[value])
             else:
                 max_temp.append((x_values[value-1].toMSecsSinceEpoch()+x_values[value+1].toMSecsSinceEpoch())/2, y_values[value])# 將 QDateTime 對象轉換為毫秒數
-            print(max_temp)
         max_temp.setName('最高溫度')
         chart.addSeries(max_temp)  # 加入最高溫折線
         min_ = min(min_, min(y_values))
@@ -466,32 +588,64 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         self.mediaPlayer.durationChanged.connect(self.duration_changed)  # 監聽媒體的總播放時間變化，連接到 duration_changed 方法
         self.mediaPlayer.mediaStatusChanged.connect(self.handle_media_status)
 
-        # buttton to play video
-        self.ui.btnVideo1.clicked.connect(self.video_select)
-        self.ui.btnVideo2.clicked.connect(self.video_select)
-        self.ui.btnVideo3.clicked.connect(self.video_select)
-        self.ui.btnVideo4.clicked.connect(self.video_select)
-        self.ui.btnVideo5.clicked.connect(self.video_select)
-        self.ui.btnVideo6.clicked.connect(self.video_select)
-
     # 影片按鈕選擇
-    def video_select(self):
+    def video_select(self, x, id):
         self.ui.stackedWidget.setCurrentIndex(4)
-        btn_name = self.sender().objectName()
-
+   
         video_mapping = {
-            'btnVideo1': ('Resource/title_video/title1.mp4', 1),
-            'btnVideo2': ('Resource/title_video/title2.mp4', 2),
-            'btnVideo3': ('Resource/title_video/title3.mp4', 3),
-            'btnVideo4': ('Resource/title_video/title4.mp4', 4),
-            'btnVideo5': ('Resource/title_video/title5.mp4', 5),
-            'btnVideo6': ('Resource/title_video/title6.mp4', 6)
+            1: ('stretch/title/mp4_1.mp4', 1),
+            2: ('stretch/title/mp4_2.mp4', 2),
+            3: ('stretch/title/mp4_3.mp4', 3),
+            4: ('stretch/title/mp4_4.mp4', 4),
+            5: ('stretch/title/mp4_5.mp4', 5),
+            6: ('stretch/title/mp4_6.mp4', 6)
         }
 
-        global videoId
-        filename, videoId = video_mapping.get(btn_name, ('', 0))
+        global videoId 
+        filename, videoId = video_mapping.get(id, ('', 0))
         self.open_and_play_video(filename)
 
+    def add_shadow(self):
+        # 創建陰影效果物件
+        effect_shadow1 = QtWidgets.QGraphicsDropShadowEffect(self)
+        effect_shadow1.setOffset(0, 5)  # 偏移
+        effect_shadow1.setBlurRadius(20)  # 陰影半徑
+        effect_shadow1.setColor(QtCore.Qt.lightGray)  # 陰影顏色
+
+        effect_shadow2 = QtWidgets.QGraphicsDropShadowEffect(self)
+        effect_shadow2.setOffset(0, 5)  # 偏移
+        effect_shadow2.setBlurRadius(20)  # 陰影半徑
+        effect_shadow2.setColor(QtCore.Qt.lightGray)  # 陰影顏色
+
+        effect_shadow3 = QtWidgets.QGraphicsDropShadowEffect(self)
+        effect_shadow3.setOffset(0, 5)  # 偏移
+        effect_shadow3.setBlurRadius(20)  # 陰影半徑
+        effect_shadow3.setColor(QtCore.Qt.lightGray)  # 陰影顏色
+
+        effect_shadow4 = QtWidgets.QGraphicsDropShadowEffect(self)
+        effect_shadow4.setOffset(0, 5)  # 偏移
+        effect_shadow4.setBlurRadius(20)  # 陰影半徑
+        effect_shadow4.setColor(QtCore.Qt.lightGray)  # 陰影顏色
+
+        effect_shadow5 = QtWidgets.QGraphicsDropShadowEffect(self)
+        effect_shadow5.setOffset(0, 5)  # 偏移
+        effect_shadow5.setBlurRadius(20)  # 陰影半徑
+        effect_shadow5.setColor(QtCore.Qt.lightGray)  # 陰影顏色
+
+        effect_shadow6 = QtWidgets.QGraphicsDropShadowEffect(self)
+        effect_shadow6.setOffset(0, 5)  # 偏移
+        effect_shadow6.setBlurRadius(20)  # 陰影半徑
+        effect_shadow6.setColor(QtCore.Qt.lightGray)  # 陰影顏色
+
+        # 將效果設定給按鈕
+        self.ui.btnVideoBg1.setGraphicsEffect(effect_shadow1)
+        self.ui.btnVideoBg2.setGraphicsEffect(effect_shadow2)
+        self.ui.btnVideoBg3.setGraphicsEffect(effect_shadow3)
+        self.ui.btnVideoBg4.setGraphicsEffect(effect_shadow4)
+        self.ui.btnVideoBg5.setGraphicsEffect(effect_shadow5)
+        self.ui.btnVideoBg6.setGraphicsEffect(effect_shadow6)
+
+    
     # 開啟並播放影片
     def open_and_play_video(self, filename):
         if filename != '':
@@ -603,3 +757,12 @@ class WinNotify(QThread):
         notifyText = "您已工作了300分鐘,該休息了"
         notifyIcon = "img/tomato.png"
         self.notify.show_toast(f"{notifyHead}", f"{notifyText}", duration=5, threaded=True, icon_path=notifyIcon)
+if __name__ == '__main__': 
+    QGuiApplication.setAttribute(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
+    QtWidgets.QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
+    app = QtWidgets.QApplication(sys.argv)
+    app.setWindowIcon(QIcon(":/image/img/tomato.png"))
+    window = MainWindow_controller()
+    window.resize(1080, 720)
+    window.show()
+    sys.exit(app.exec_())

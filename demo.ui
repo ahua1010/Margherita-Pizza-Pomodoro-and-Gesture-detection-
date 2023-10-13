@@ -264,20 +264,21 @@ background-position: left center;
 
 ///////////////////////////////////////////////////////////////////////////////////////*/
 QListView {
-	font: 25 9pt &quot;Microsoft YaHei&quot;;
+	font: 12pt &quot;Microsoft YaHei&quot;;
 	border: 0px solid white;
+	padding: 7px;
 	border-radius: 10px;
 }
 QListView::item:hover {
 	background-color: transparent;
-	padding: 10px;
-	border-left: 3px solid rgb(130, 130, 130);
+	padding: 5px;
+	border-left: 2px solid rgb(130, 130, 130);
 }
 QListView::item:selected {
 	background-color: transparent;
-	color: black;
-	padding: 10px;
-	border-left: 3px solid black;
+	padding: 5px;
+	border: none;
+	border-left: 2px solid rgb(189, 147, 249);
 }
 
 /* 伸展操選擇樣式 */
@@ -785,10 +786,10 @@ QListView::item:selected {
                    <enum>Qt::LeftToRight</enum>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">background-image: url(:/icons/images/icons/icon_settings.png);</string>
+                   <string notr="true">background-image: url(:/image/img/icon_settings.png);</string>
                   </property>
                   <property name="text">
-                   <string>Left Box</string>
+                   <string>Setting</string>
                   </property>
                  </widget>
                 </item>
@@ -1112,7 +1113,7 @@ QListView::item:selected {
                 <string notr="true"/>
                </property>
                <property name="currentIndex">
-                <number>4</number>
+                <number>0</number>
                </property>
                <widget class="QWidget" name="page">
                 <layout class="QVBoxLayout" name="verticalLayout_5" stretch="1,1">
@@ -1728,8 +1729,8 @@ image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/delete.png);</str
                          <property name="font">
                           <font>
                            <family>Microsoft YaHei</family>
-                           <pointsize>9</pointsize>
-                           <weight>3</weight>
+                           <pointsize>12</pointsize>
+                           <weight>50</weight>
                            <italic>false</italic>
                            <bold>false</bold>
                           </font>
@@ -3989,7 +3990,7 @@ image:url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/back.png);</strin
                 </size>
                </property>
                <property name="styleSheet">
-                <string notr="true">image: url(D:/酪梨資料夾/大學作業/專題/pyqt/demo/img/text-area.png);</string>
+                <string notr="true">image: url(:/image/img/text-area.png);</string>
                </property>
                <property name="frameShape">
                 <enum>QFrame::NoFrame</enum>

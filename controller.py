@@ -72,10 +72,9 @@ class MainWindow_controller(QtWidgets.QMainWindow):
 
         # 首頁辨識初始
         self.PoseCam = PoseDetection()  # 建立相機物件
-        self.openCam()
-        if self.PoseCam.connect:
-            # 連接影像訊號 (rawdata) 至 getRaw()
-            self.PoseCam.rawdata.connect(self.getRawImg)  # 槽功能：取得並顯示影像
+        self.openPoseCam()
+        # 連接影像訊號 (rawdata) 至 getRaw()
+        self.PoseCam.rawdata.connect(self.getRawImg)  # 槽功能：取得並顯示影像
         self.create_player()
         
         #選擇頁面初始化
@@ -192,11 +191,11 @@ class MainWindow_controller(QtWidgets.QMainWindow):
     
     #tab切換
     def tab_switch(self,Index):
+        self.openPoseCam()
         sender = self.sender()  # 獲取發送信號的按鈕
         if sender is not None:
             button_text = sender.text()
             if button_text == "Clock":
-                self.openCam()
                 self.ui.stackedWidget.setCurrentIndex(0)
             elif button_text == "Stretch":
                 self.ui.stackedWidget.setCurrentIndex(1)
@@ -411,10 +410,14 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         self.ui.todo_date.setDateTime(date_time)
 
     # 首頁影像辨識
-    def openCam(self):
-        if self.PoseCam.connect:
-            self.PoseCam.open()
-            self.PoseCam.start()
+    def openPoseCam(self):
+        self.PoseCam.open()
+        self.PoseCam.start()
+
+    def closePoseCam(self):
+        self.PoseCam.sleep(1)
+        self.PoseCam.close()
+
 
     def getRawImg(self, data):
         self.showDataImg(data)

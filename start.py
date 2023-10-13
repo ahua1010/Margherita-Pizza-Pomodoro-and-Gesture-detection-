@@ -9,6 +9,7 @@ if __name__ == '__main__':
     QtWidgets.QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
     app = QtWidgets.QApplication(sys.argv)
     window = MainWindow_controller()
+    window.resize(1080, 720)
     window.show()
     sys.exit(app.exec_())
     

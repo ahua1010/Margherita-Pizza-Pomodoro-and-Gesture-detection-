@@ -38,6 +38,7 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         self.ui.btn_clock.clicked.connect(self.tab_switch)
         self.ui.btn_stretch.clicked.connect(self.tab_switch)
         self.ui.btn_weather.clicked.connect(self.tab_switch)
+        self.ui.toggleLeftBox.clicked.connect(self.tab_switch)
         self.ui.appMargins = QVBoxLayout(self.ui.styleSheet)
         self.ui.appMargins.setSpacing(0)
         self.ui.appMargins.setObjectName(u"appMargins")

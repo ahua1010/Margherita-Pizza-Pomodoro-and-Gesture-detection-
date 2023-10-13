@@ -31,7 +31,7 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         #self.ui.setupUi(self)
         self.renewWeatherData()
         self.setup_control()
-        # self.uiDefinitions()
+        self.uiDefinitions()
 
         #主頁設置
         self.ui.stackedWidget.setCurrentIndex(0)
@@ -72,11 +72,109 @@ class MainWindow_controller(QtWidgets.QMainWindow):
 
         # 首頁辨識初始
         self.PoseCam = PoseDetection()  # 建立相機物件
-        self.openPoseCam()
-        # 連接影像訊號 (rawdata) 至 getRaw()
-        self.PoseCam.rawdata.connect(self.getRawImg)  # 槽功能：取得並顯示影像
-
+        self.openCam()
+        if self.PoseCam.connect:
+            # 連接影像訊號 (rawdata) 至 getRaw()
+            self.PoseCam.rawdata.connect(self.getRawImg)  # 槽功能：取得並顯示影像
         self.create_player()
+        
+        #選擇頁面初始化
+        self.add_shadow()
+        self.ui.btnVideoBg1.mouseReleaseEvent = lambda event:self.video_select(event,1)
+        self.ui.btnVideoBg2.mouseReleaseEvent = lambda event:self.video_select(event,2)
+        self.ui.btnVideoBg3.mouseReleaseEvent = lambda event:self.video_select(event,3)
+        self.ui.btnVideoBg4.mouseReleaseEvent = lambda event:self.video_select(event,4)
+        self.ui.btnVideoBg5.mouseReleaseEvent = lambda event:self.video_select(event,5)
+        self.ui.btnVideoBg6.mouseReleaseEvent = lambda event:self.video_select(event,6)
+
+    #返回當前位置狀態
+    def returStatus(self):
+        return GLOBAL_STATE
+
+    # 初始化頁面設定
+    def uiDefinitions(self):
+        def dobleClickMaximizeRestore(event):
+            # IF DOUBLE CLICK CHANGE STATUS
+            if event.type() == QEvent.MouseButtonDblClick:
+                QTimer.singleShot(250, lambda: self.maximize_restore(self))
+        self.ui.titleRightInfo.mouseDoubleClickEvent = dobleClickMaximizeRestore
+
+        if Settings.ENABLE_CUSTOM_TITLE_BAR:
+            #STANDARD TITLE BAR
+            self.setWindowFlags(Qt.FramelessWindowHint)
+            self.setAttribute(Qt.WA_TranslucentBackground)
+
+            # MOVE WINDOW / MAXIMIZE / RESTORE
+            def moveWindow(event):
+                # IF MAXIMIZED CHANGE TO NORMAL
+                if self.returStatus():
+                    self.maximize_restore(self)
+                # MOVE WINDOW
+                if event.buttons() == Qt.LeftButton:
+                    self.move(self.pos() + event.globalPos() - self.dragPos)
+                    self.dragPos = event.globalPos()
+                    event.accept()
+            self.ui.titleRightInfo.mouseMoveEvent = moveWindow
+
+        else:
+            self.ui.appMargins.setContentsMargins(0, 0, 0, 0)
+            self.ui.minimizeAppBtn.hide()
+            self.ui.maximizeRestoreAppBtn.hide()
+            self.ui.closeAppBtn.hide()
+            self.ui.frame_size_grip.hide()
+
+        # DROP SHADOW
+        self.shadow = QtWidgets.QGraphicsDropShadowEffect(self)
+        self.shadow.setBlurRadius(17)
+        self.shadow.setXOffset(0)
+        self.shadow.setYOffset(0)
+        self.shadow.setColor(QColor(0, 0, 0, 150))
+        self.ui.bgApp.setGraphicsEffect(self.shadow)
+
+        # RESIZE WINDOW
+        self.sizegrip = QSizeGrip(self.ui.frame_size_grip)
+        self.sizegrip.setStyleSheet("width: 20px; height: 20px; margin 0px; padding: 0px;")
+
+        # MINIMIZE
+        self.ui.minimizeAppBtn.clicked.connect(lambda: self.showMinimized())
+
+        # MAXIMIZE/RESTORE
+        self.ui.maximizeRestoreAppBtn.clicked.connect(lambda: self.maximize_restore())
+
+        # CLOSE APPLICATION
+        self.ui.closeAppBtn.clicked.connect(lambda: self.close())
+
+    def maximize_restore(self):
+        global GLOBAL_STATE
+        status = GLOBAL_STATE
+        if status == False:
+            self.showMaximized()
+            GLOBAL_STATE = True
+            self.ui.appMargins.setContentsMargins(0, 0, 0, 0)
+            self.ui.maximizeRestoreAppBtn.setToolTip("Restore")
+            self.ui.maximizeRestoreAppBtn.setIcon(QIcon(u":/image/img/icon_restore.png"))
+            self.ui.frame_size_grip.hide()
+            # self.left_grip.hide()
+            # self.right_grip.hide()
+            # self.top_grip.hide()
+            # self.bottom_grip.hide()
+        else:
+            GLOBAL_STATE = False
+            self.showNormal()
+            self.resize(self.width()+1, self.height()+1)
+            self.ui.appMargins.setContentsMargins(10, 10, 10, 10)
+            self.ui.maximizeRestoreAppBtn.setToolTip("Maximize")
+            self.ui.maximizeRestoreAppBtn.setIcon(QIcon(u":/image/img/icon_maximize.png"))
+            self.ui.frame_size_grip.show()
+            # self.left_grip.show()
+            # self.right_grip.show()
+            # self.top_grip.show()
+            # self.bottom_grip.show()
+
+    #事件處理
+    def closeEvent(self, event):
+        print("close")
+        self.PoseCam.close()
     
     def mouseMoveEvent(self, e: QMouseEvent):  # 重写移动事件
          if self._tracking:
@@ -94,11 +192,11 @@ class MainWindow_controller(QtWidgets.QMainWindow):
     
     #tab切換
     def tab_switch(self,Index):
-        self.openPoseCam()
         sender = self.sender()  # 獲取發送信號的按鈕
         if sender is not None:
             button_text = sender.text()
             if button_text == "Clock":
+                self.openCam()
                 self.ui.stackedWidget.setCurrentIndex(0)
             elif button_text == "Stretch":
                 self.ui.stackedWidget.setCurrentIndex(1)
@@ -313,13 +411,10 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         self.ui.todo_date.setDateTime(date_time)
 
     # 首頁影像辨識
-    def openPoseCam(self):
-        self.PoseCam.open()
-        self.PoseCam.start()
-
-    def closePoseCam(self):
-        self.PoseCam.sleep(1)
-        self.PoseCam.close()
+    def openCam(self):
+        if self.PoseCam.connect:
+            self.PoseCam.open()
+            self.PoseCam.start()
 
     def getRawImg(self, data):
         self.showDataImg(data)
@@ -496,7 +591,6 @@ class MainWindow_controller(QtWidgets.QMainWindow):
 
     # 影片按鈕選擇
     def video_select(self, x, id):
-        self.closePoseCam()
         self.ui.stackedWidget.setCurrentIndex(4)
    
         video_mapping = {

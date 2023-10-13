@@ -418,7 +418,6 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         self.PoseCam.sleep(1)
         self.PoseCam.close()
 
-
     def getRawImg(self, data):
         self.showDataImg(data)
 
@@ -594,6 +593,7 @@ class MainWindow_controller(QtWidgets.QMainWindow):
 
     # 影片按鈕選擇
     def video_select(self, x, id):
+        self.closePoseCam()
         self.ui.stackedWidget.setCurrentIndex(4)
    
         video_mapping = {
